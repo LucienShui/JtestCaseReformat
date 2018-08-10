@@ -4,7 +4,7 @@ import zipfile
 
 
 def extract(zipName):
-    if not os.path.exists('bufFile'):  # 将程序的输出保存至此，如果不存在则创建
+    if not os.path.exists('bufFile'):
         os.makedirs('bufFile')
     zipBuf = zipfile.ZipFile(zipName, 'r')
     for fileNameBuf in zipBuf.namelist():
@@ -17,7 +17,7 @@ def extract(zipName):
 if __name__ == '__main__':
     path = os.path.split(os.path.realpath(__file__))[0]  # 获取当前绝对路径
     sep = os.path.sep
-    fileList = os.listdir('.')
+    fileList = os.listdir(path)
     for zipName in fileList:
         if zipName.find('.zip') == -1:
             continue
@@ -30,8 +30,8 @@ if __name__ == '__main__':
             if testCaseName not in vis:
                 cnt += 1
                 vis.append(testCaseName)
-                new.write('%s%sbufFile%s%s.in' % (path, sep, sep, testCaseName), '%d.in' % cnt, zipfile.ZIP_DEFLATED)
-                new.write('%s%sbufFile%s%s.out' % (path, sep, sep, testCaseName), '%d.out' % cnt, zipfile.ZIP_DEFLATED)
+                new.write('bufFile%s%s.in' % (sep, testCaseName), '%d.in' % cnt, zipfile.ZIP_DEFLATED)
+                new.write('bufFile%s%s.out' % (sep, testCaseName), '%d.out' % cnt, zipfile.ZIP_DEFLATED)
         new.close()
         listBuf = os.listdir('bufFile')
         for file in listBuf:
